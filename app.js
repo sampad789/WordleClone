@@ -1,7 +1,8 @@
  const tileDisplay = document.querySelector('.tile-container');
  const keyboard = document.querySelector('.key-container');
- const wordle="SUPER";
-
+ const messageDisplay = document.querySelector('.message-container');
+ 
+ const wordle="LUFFY";
 
  const keys = [
   'Q',
@@ -77,7 +78,8 @@ const handleClick=(letter)=>{
       return 
   }
   if(letter==="ENTER"){
-    console.log('check row for match')
+   // console.log('check row for match')
+   checkRow();
     console.log('guessRows',guessRows);
     return 
   }
@@ -107,3 +109,19 @@ const deleteLetter =()=>{
   tile.setAttribute('data',letter)
 }
 }
+
+const checkRow =()=>{
+  if(currentTile===5){
+   const guess=  guessRows[currentRow].join('')
+   console.log('your guess is '+ guess , 'wordle of the day is '+wordle );
+
+          if (wordle == guess){
+            showMessage('Sheeesh magnifique!') 
+          }
+  }
+}
+const showMessage =(message)=>{
+  const messageElement = document.createElement('p')
+  messageElement.textContent = message;
+  messageDisplay.append(messageElement);
+} 
