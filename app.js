@@ -113,9 +113,14 @@ const deleteLetter =()=>{
 }
 
 const checkRow =()=>{
-  if(currentTile>4){
-   const guess=  guessRows[currentRow].join('')
-   console.log('your guess is '+ guess , 'wordle of the day is '+wordle );
+ const guess=  guessRows[currentRow].join('')
+
+
+
+   if(currentTile>4){
+    console.log('your guess is '+ guess , 'wordle of the day is '+wordle );
+
+        flipTile();
 
           if (wordle == guess){
             showMessage('Sheeesh magnifique!') 
@@ -143,13 +148,30 @@ const showMessage =(message)=>{
   setTimeout(()=>messageDisplay.removeChild(messageElement),2000)
 } 
 
+const addColorToKey=(keyLetter,color)=>{
+ const key =  document.getElementById(keyLetter);
+    key.classList.add(color)
+}
+
 const flipTile=()=>{
-const rowTiles=   document.querySelector('guessrow-' + currentRow).childNodes
-rowTiles.forEach(tile => {
+const rowTiles=   document.querySelector('#guessRow-' + currentRow).childNodes
+rowTiles.forEach((tile,index) => {
   const dataLetter= tile.getAttribute('data');
+setTimeout(()=>{
+  tile.classList.add('flip');
   if(dataLetter== wordle[index]){
 
     tile.classList.add('green-overlay')
+    addColorToKey(dataLetter,'green-overlay')
   }
-})
+  else if (wordle.includes(dataLetter)){
+    tile.classList.add('yellow-overlay')
+    addColorToKey(dataLetter,'yellow-overlay')
+  }
+  else{
+    tile.classList.add('grey-overlay')
+  } addColorToKey(dataLetter,'grey-overlay')
+},500*index)
+
+  })
 }
