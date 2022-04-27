@@ -47,6 +47,8 @@ const guessRows = [
 let currentRow= 0;
 let currentTile= 0;
 
+// variable to check if the game is over 
+let isGameOver = false;
 
 guessRows.forEach((guessRow,guessRowIndex) =>{
 const rowElement = document.createElement('div')
@@ -111,12 +113,26 @@ const deleteLetter =()=>{
 }
 
 const checkRow =()=>{
-  if(currentTile===5){
+  if(currentTile>4){
    const guess=  guessRows[currentRow].join('')
    console.log('your guess is '+ guess , 'wordle of the day is '+wordle );
 
           if (wordle == guess){
             showMessage('Sheeesh magnifique!') 
+            isGameOver=true ;
+            return
+          }
+          else{
+            if ( currentRow>=5){
+              isGameOver=true ;
+              showMessage(' DAMN BOI GAME OVER!')
+              return 
+            }
+            if(currentRow<5){
+              currentRow++; 
+              currentTile=0;
+            }
+
           }
   }
 }
@@ -124,4 +140,16 @@ const showMessage =(message)=>{
   const messageElement = document.createElement('p')
   messageElement.textContent = message;
   messageDisplay.append(messageElement);
+  setTimeout(()=>messageDisplay.removeChild(messageElement),2000)
 } 
+
+const flipTile=()=>{
+const rowTiles=   document.querySelector('guessrow-' + currentRow).childNodes
+rowTiles.forEach(tile => {
+  const dataLetter= tile.getAttribute('data');
+  if(dataLetter== wordle[index]){
+
+    tile.classList.add('green-overlay')
+  }
+})
+}
